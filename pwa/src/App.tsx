@@ -1,8 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useCallback } from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
+  const sendData = useCallback(async () => {
+    const options = {
+      method: "POST",
+      body: JSON.stringify({ timeIs: new Date() }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    console.log('Fetch')
+    await fetch("http://localhost:8000/endpoint", options);
+  }, []);
   return (
     <div className="App">
       <header className="App-header">
@@ -18,6 +29,7 @@ function App() {
         >
           Learn React
         </a>
+        <button onClick={sendData}>Send data</button>
       </header>
     </div>
   );
