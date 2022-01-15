@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      p {
+        color: saddlebrown;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <p>hello body</p>
+    <span>first</span>
+    <my-custom-component> </my-custom-component>
+    <div style="height: 1px; width: 100%; background-color: black"></div>
+    <span>second</span>
+    <my-custom-component theme="blue">
+      <p slot="message-text">hello slot</p>
+    </my-custom-component>
+  </body>
+  <template id="my-template">
+    <style>
+      p {
+        font-size: 24px;
+      }
+      .yellow {
+        color: yellow;
+      }
+      .blue {
+        color: blue;
+      }
+    </style>
+    <p>message:</p>
+    <p>
+        <slot name="message-text">Default text</slot>
+    </p>
+  </template>
+  <script>
+    class MyCustomComponent extends HTMLElement {
+      constructor() {
+        super();
+        let template = document.getElementById("my-template");
+
+        const theme = this.getAttribute("theme") || "yellow";
+
+        let templateContent = template.content;
+
+        const shadowRoot = this.attachShadow({ mode: "open" });
+        shadowRoot.appendChild(templateContent.cloneNode(true));
+        shadowRoot.querySelector("p").setAttribute("class", theme);
+      }
+    }
+    customElements.define("my-custom-component", MyCustomComponent);
+  </script>
+</html>
